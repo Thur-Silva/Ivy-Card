@@ -1,0 +1,209 @@
+<div class="moana-background">
+  <!-- Novo container para o sol e os raios -->
+  <div class="sun-container">
+    <!-- Novo elemento para o núcleo do sol -->
+    <div class="sun-core"></div>
+    
+    <!-- Novo container para os raios de sol com animação de rotação -->
+    <div class="sun-beams"></div>
+  </div>
+  
+  <!-- Animated Wave Layers -->
+  <svg class="wave-svg" viewBox="0 0 100 25" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="wave1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077c2" /><stop offset="100%" style="stop-color:#0087d1" /></linearGradient>
+      <linearGradient id="wave2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0087d1" /><stop offset="100%" style="stop-color:#0099e5" /></linearGradient>
+      <linearGradient id="wave3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0099e5" /><stop offset="100%" style="stop-color:#00aaff" /></linearGradient>
+      <linearGradient id="wave4" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#00aaff" /><stop offset="100%" style="stop-color:#00bfff" /></linearGradient>
+    </defs>
+    
+    <path d="M0,10 C30,15 40,5 70,10 S90,20 100,15 V25 H0 Z" fill="url(#wave1)" class="wave-path layer1"></path>
+    <path d="M0,15 C20,20 40,10 60,15 S80,20 100,10 V25 H0 Z" fill="url(#wave2)" class="wave-path layer2"></path>
+    <path d="M0,20 C10,25 30,15 50,20 S70,25 90,15 V25 H0 Z" fill="url(#wave3)" class="wave-path layer3"></path>
+    <path d="M0,25 C15,20 35,15 55,20 S75,25 100,18 V25 H0 Z" fill="url(#wave4)" class="wave-path layer4"></path>
+  </svg>
+  
+  <!-- Animated Raft -->
+  <div class="raft">
+    <div class="raft-base"></div>
+    <div class="raft-sail"></div>
+  </div>
+</div>
+
+<style>
+  .moana-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, #60A5FA 0%, #0077c2 100%);
+    z-index: -1;
+  }
+
+  /* Sun Container - for positioning and containing the sun and rays */
+  .sun-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: clamp(20vw, 30vw, 400px); /* Tamanho responsivo */
+    height: clamp(20vw, 30vw, 400px); /* Tamanho responsivo */
+    z-index: 0;
+    transform: translate(15%, -15%);
+    filter: drop-shadow(0 0 25px rgba(253, 230, 138, 0.9));
+  }
+  
+  @media (max-width: 768px) {
+    .sun-container {
+      width: 40vw;
+      height: 40vw;
+      transform: translate(10%, -10%);
+    }
+  }
+
+  /* Sun Core */
+  .sun-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      #FFFFFF 0%,
+      #FDE68A 25%,
+      #FBBF24 50%,
+      #EAB308 100%
+    );
+    filter: blur(1px);
+    z-index: 2;
+  }
+
+  /* Sun Beams - container for the light rays, now with animation */
+  .sun-beams {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    animation: rotate-sun-beams 40s linear infinite; /* Rotação contínua em torno do centro do sol */
+  }
+
+  /* Corrigido: a animação agora gira o container de raios, que está posicionado no centro do sol. */
+  @keyframes rotate-sun-beams {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Individual light rays */
+  .sun-beam-ray {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw; /* Raios mais longos */
+    height: 1vw; /* Espessura dos raios */
+    transform-origin: 0% 50%;
+    background: linear-gradient(
+      90deg,
+      rgba(253, 230, 138, 0.8) 0%,
+      rgba(253, 230, 138, 0.2) 50%,
+      transparent 100%
+    );
+    filter: blur(2px); /* Suaviza as bordas */
+    opacity: 0.7;
+  }
+  
+  /* Onda SVG Container */
+  .wave-svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+    z-index: 1;
+  }
+
+  /*
+   * Wave Animations
+   */
+  .wave-path {
+    animation: wave-motion-improved 15s cubic-bezier(0.5, 0.5, 0.5, 0.5) infinite alternate;
+    /* Adiciona sombras e realces sutis */
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2)) drop-shadow(-2px -2px 2px rgba(255, 255, 255, 0.2));
+  }
+  .layer1 { animation-duration: 15s; animation-delay: -2s; opacity: 1; }
+  .layer2 { animation-duration: 13s; animation-delay: -4s; opacity: 0.9; }
+  .layer3 { animation-duration: 11s; animation-delay: -6s; opacity: 0.8; }
+  .layer4 { animation-duration: 9s; animation-delay: -8s; opacity: 0.7; }
+  
+  @keyframes wave-motion-improved {
+    0% { transform: translate(-5%, -2%); }
+    100% { transform: translate(5%, 2%); }
+  }
+
+  /* Raft Styles */
+  .raft {
+    position: absolute;
+    bottom: 12vh;
+    left: 20%; /* Ajustei a posição para a esquerda */
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: raft-motion 20s ease-in-out infinite;
+    /* Adiciona sombras e realces sutis */
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+  }
+
+  @media (max-width: 768px) {
+    .raft {
+      bottom: 10vh;
+      left: 15%; /* Ajuste para telas menores */
+    }
+  }
+
+  .raft-base {
+    width: 15vw;
+    height: 3vw;
+    background-color: #604020;
+    border-radius: 50%;
+    box-shadow: inset 0 -3px 5px rgba(0,0,0,0.3);
+  }
+
+  .raft-sail {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 2vw solid transparent;
+    border-right: 2vw solid transparent;
+    border-bottom: 8vw solid #f2e2d0;
+    filter: drop-shadow(0 -2px 3px rgba(0,0,0,0.2));
+  }
+  
+  @keyframes raft-motion {
+    0%, 100% { transform: translate(-50%, 0) rotate(2deg); }
+    50% { transform: translate(-50%, -10px) rotate(-2deg); }
+  }
+</style>
+
+<script>
+  // Script para gerar os raios de sol dinamicamente
+  document.addEventListener('DOMContentLoaded', () => {
+    const sunBeams = document.querySelector('.sun-beams');
+    const numberOfRays = 30; // Aumentei o número de raios para um efeito mais completo
+
+    for (let i = 0; i < numberOfRays; i++) {
+      const ray = document.createElement('div');
+      ray.classList.add('sun-beam-ray');
+      const rotation = (360 / numberOfRays) * i;
+      ray.style.transform = `rotate(${rotation}deg)`;
+      sunBeams.appendChild(ray);
+    }
+  });
+</script>

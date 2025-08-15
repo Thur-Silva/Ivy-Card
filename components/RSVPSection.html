@@ -1,0 +1,44 @@
+<section id="rsvp" class="rounded-3xl bg-gradient-to-b from-sky-50 to-sky-100 ring-1 ring-white/40 shadow-md px-[6%] py-[10%]">
+  <h2 class="text-xl font-bold">RSVP</h2>
+  <p class="mt-[3%] text-sm opacity-90">Please confirm so we save you a lei 🌺</p>
+  <form id="rsvpForm" class="mt-[6%] grid gap-[4%]" novalidate>
+    <label class="grid gap-[2%]">
+      <span class="text-sm">Your name</span>
+      <input name="name" required placeholder="e.g., Moana Waialiki" class="rounded-xl border border-sky-200/80 px-[4%] py-[3%] focus:outline-none focus:ring-2 focus:ring-sky-300" />
+    </label>
+    <label class="grid gap-[2%]">
+      <span class="text-sm">How many guests?</span>
+      <input name="guests" type="number" min="1" max="10" value="1" class="rounded-xl border border-sky-200/80 px-[4%] py-[3%] focus:outline-none focus:ring-2 focus:ring-sky-300" />
+    </label>
+    <label class="grid gap-[2%]">
+      <span class="text-sm">Contact (email or phone)</span>
+      <input name="contact" required placeholder="you@example.com" class="rounded-xl border border-sky-200/80 px-[4%] py-[3%] focus:outline-none focus:ring-2 focus:ring-sky-300" />
+    </label>
+    <button type="submit" class="rounded-2xl px-[5%] py-[3.5%] bg-sky-500 text-white font-semibold active:scale-95 transition">
+      Confirm
+    </button>
+    <p id="rsvpStatus" class="text-sm"></p>
+  </form>
+
+  <script>
+    const form = document.currentScript.parentElement.querySelector('#rsvpForm');
+    const status = document.currentScript.parentElement.querySelector('#rsvpStatus');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = 'Sending...';
+      const payload = Object.fromEntries(new FormData(form).entries());
+      try {
+        const res = await fetch('/api/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Request failed');
+        status.textContent = 'Mahalo! RSVP received.';
+        form.reset();
+      } catch (err) {
+        status.textContent = 'Oops, please try again.';
+      }
+    });
+  </script>
+</section>

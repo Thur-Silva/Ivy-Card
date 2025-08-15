@@ -1,0 +1,28 @@
+/* Estilos para o componente de placa de convite */
+.placa-wrapper {
+  margin-top: -14%;
+  padding-bottom: 8%;
+}
+
+
+/* Neon Pink mais suave */
+.neon-pink {
+  color: #ffff6e;
+  text-shadow:
+    0 0 5px #ffff00,
+    0 0 10px #ffff00,
+    0 0 20px #ffff00,
+    0 0 40px #ffff00,
+    0 0 80px #ffff00;
+}
+
+/* Neon Yellow */
+.neon-yellow {
+  color: #2865ff;
+  text-shadow:
+    0 0 3.25px #779eff,
+    0 0 7.5px #779eff,
+    0 0 15px #779eff,
+    0 0 30px #779eff,
+    0 0 60px #779eff;
+}

@@ -1,0 +1,26 @@
+/* Ajustes finos para o cartão */
+body {
+  background-image: url('../../assets/images/ocean-texture.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.card-wrapper {
+  /* Z-index para garantir que o pseudo-elemento fique atrás do conteúdo */
+  position: relative;
+  z-index: 1;
+}
+
+/* Pseudo-elemento para o fundo com blur. O HTML foi ajustado para usar um div dedicado em vez de um pseudo-elemento. */
+
+.card {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+button {
+  transition: transform 0.15s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}

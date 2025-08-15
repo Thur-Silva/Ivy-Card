@@ -1,0 +1,2 @@
+/* Extra polish for header glass effect */
+[data-sticky-header] { backdrop-filter: blur(10px); }

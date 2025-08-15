@@ -1,0 +1,40 @@
+.datetime-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.0rem, 6vw, 2.5rem);
+    background: rgba(255, 255, 255, 0.55);
+    padding: clamp(0.7rem, 3.5vw, 1.3rem) clamp(1.5rem, 7vw, 2.5rem);
+    border-radius: 9999px; /* Tailwind's rounded-full equivalent */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.datetime-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+.datetime-number {
+    font-size: clamp(2rem, 10vw, 3rem);
+    font-weight: 800;
+    color: #EC4899; /* Tailwind's rose-500 */
+    margin-top: 10%;
+}
+
+.datetime-label {
+    font-size: clamp(1.3rem, 3.5vw, 1rem);
+    font-weight: 600;
+    color: #4B5563; /* Tailwind's gray-600 */
+    margin-top: clamp(-10rem, -2.5vw, -0.7rem);
+    letter-spacing: 0.085em; /* Tailwind's tracking-wide */
+    text-transform: uppercase;
+    margin: 10%;
+}
+
+.datetime-star {
+    flex-shrink: 0;
+    width: clamp(2.5rem, 9vw, 3rem);
+    height: clamp(2.5rem, 9vw, 3rem);
+}

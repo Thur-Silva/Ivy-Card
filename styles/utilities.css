@@ -1,0 +1,55 @@
+/* Paleta e utilidades globais — manter % e unidades fluidas */
+:root{
+  /* Mar / turquesa */
+  --sea-200:#bde8ff;
+  --sea-300:#8fd7ff;
+  --sea-400:#6ecffb;
+  --sea-500:#38bdf8;
+  --sea-600:#0ea5e9;
+
+  /* Coral / rosa */
+  --coral-400:#ff93a9;
+  --coral-600:#ff5f84;
+  --coral-700:#e0456c;
+
+  /* Areia / madeira / tinta */
+  --sand-50:#fff7e6;
+  --wood-800:#7a4a11;
+  --ink-700:#314157;
+
+  --shadow-soft: 0 12px 30px -12px rgba(2,132,199,.25);
+}
+
+/* Tipografia de projeto */
+.font-decor { font-family: 'Pacifico', cursive; }
+.font-body  { font-family: 'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+
+/* Header legado */
+.header-hidden { transform: translateY(-120%); transition: transform .28s ease; }
+[data-sticky-header] { box-shadow: var(--shadow-soft); transition: transform .28s ease; }
+
+/* Botão redondo compartilhado */
+.btn-circular{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.2rem, 5vw, 1.4rem);
+}
+
+
+#subtitle {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+    font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin-top: -1rem; margin-bottom: 1.5rem; color: #F97068; text-shadow: 1px 1px 2px #ad6370; }
+
+
+p{
+    font-family: 'Dancing Script'; font-size: 2rem; margin-top: -1rem; margin-bottom: 1.5rem; color: black; text-shadow: 1px 1px 2px #ad6370;
+
+}
