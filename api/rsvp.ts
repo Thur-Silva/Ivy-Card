@@ -4,42 +4,41 @@ import { neon } from '@neondatabase/serverless';
 import { sendEmail } from '../services/emailClient';
 import 'dotenv/config';
 
-// Defina uma interface para o corpo da requisição
+// Interface para o corpo da requisição
 interface RsvpRequestBody {
     nome: string;
     convidados: number;
 }
 
-// A função POST agora aceita o objeto de requisição do Express
+// Função POST para criar RSVP
 export async function POST(request: any) {
 
     console.log('SMTP_HOST:', process.env.SMTP_HOST);
-console.log('SMTP_PORT:', process.env.SMTP_PORT);
+    console.log('SMTP_PORT:', process.env.SMTP_PORT);
 
     console.warn("Recebendo confirmação de presença [/api/rsvp]");
 
     try {
         const sql = neon(`${process.env.DATABASE_URL}`);
         
-        // Use request.body para acessar os dados da requisição
-        const { nome, convidados } = request.body as RsvpRequestBody;
-        
+        // Pega JSON corretamente em serverless/Next.js
+        let body: RsvpRequestBody;
+        try {
+            body = await request.json();
+        } catch {
+            return { json: () => ({ error: 'Corpo inválido' }), status: 400 };
+        }
+
         // Sanitização
-        const nomeLimpo = String(nome || '').trim();
-        const qtdConvidados = Number(convidados);
+        const nomeLimpo = String(body.nome || '').trim();
+        const qtdConvidados = Number(body.convidados);
 
         // Validação
         if (!nomeLimpo) {
-            return {
-                json: () => ({ error: 'O nome é obrigatório.' }),
-                status: 400
-            };
+            return { json: () => ({ error: 'O nome é obrigatório.' }), status: 400 };
         }
         if (isNaN(qtdConvidados) || qtdConvidados < 1) {
-            return {
-                json: () => ({ error: 'Informe um número válido de pessoas (mínimo 1).' }),
-                status: 400
-            };
+            return { json: () => ({ error: 'Informe um número válido de pessoas (mínimo 1).' }), status: 400 };
         }
 
         // Inserir no banco
@@ -49,22 +48,21 @@ console.log('SMTP_PORT:', process.env.SMTP_PORT);
             RETURNING *;
         `;
 
-        // Busca lista completa ordenada (mais recente primeiro)
+        // Lista completa ordenada (mais recente primeiro)
         const lista = await sql`
             SELECT name, guests_count, created_at
             FROM users
             ORDER BY created_at DESC;
         `;
 
-        // Soma total de convidados
+        // Total de convidados
         const total = lista.reduce((acc, item) => acc + Number(item.guests_count), 0);
 
-        // Monta HTML com estilo
+        // Monta HTML para e-mail
         const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-        const assunto = `🎉${capitalize(nome)} confirmou que vem!`;
-       const corpo = `
+        const assunto = `🎉${capitalize(nomeLimpo)} confirmou que vem!`;
+        const corpo = `
 <div style="font-family: Arial, sans-serif; background: linear-gradient(to bottom, #ffe0b2, #ffcc80); padding: 25px; border-radius: 14px; max-width: 550px; margin: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-    
     <h2 style="color: #d35400; text-align: center; font-size: 26px; margin-bottom: 10px;">🌊 Nova Confirmação de Presença!</h2>
     <p style="font-size: 16px; color: #444; text-align: center; margin-bottom: 20px;">
         Um novo convidado confirmou presença no aniversário da <strong>Ivy</strong>.
@@ -95,19 +93,17 @@ console.log('SMTP_PORT:', process.env.SMTP_PORT);
     <p style="text-align: center; font-size: 12px; color: #777; margin-top: 20px;">
         Enviado automaticamente pelo sistema do convite da Ivy 🌺
     </p>
-
 </div>
 `;
 
-
-        // Envia o e-mail
+        // Envia e-mail
         try {
             await sendEmail({
                 to: ['arthurcaue100@gmail.com'],
                 subject: assunto,
                 html: corpo
             });
-            console.warn("Notificação por e-mail enviada com sucesso para o email: arthurcaue100@gmail.com'" );
+            console.warn("Notificação por e-mail enviada com sucesso para o email: arthurcaue100@gmail.com");
         } catch (emailErr) {
             console.error("Erro ao enviar notificação por e-mail:", emailErr);
         }
@@ -128,7 +124,8 @@ console.log('SMTP_PORT:', process.env.SMTP_PORT);
         };
     }
 }
-// Código para a função GET...
+
+// Função GET para listar confirmações
 export async function GET(request: any) {
     console.warn("Listando confirmações [/api/rsvp]");
 
