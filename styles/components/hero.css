@@ -7,13 +7,13 @@
 
 /* Neon Pink mais suave */
 .neon-pink {
-  color: #ffff6e;
+  color: #ffff72;
   text-shadow:
-    0 0 5px #ffff00,
-    0 0 10px #ffff00,
-    0 0 20px #ffff00,
-    0 0 40px #ffff00,
-    0 0 80px #ffff00;
+    0 0 1px #eaea72,
+    0 0 1px #eaea72,
+    0 0 1px #eaea72,
+    0 0 1px #eaea72,
+    0 0 1px #eaea72;
 }
 
 /* Neon Yellow */
